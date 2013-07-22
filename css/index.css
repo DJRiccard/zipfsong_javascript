@@ -1,0 +1,40 @@
+body {
+  font-family: "Verdana";
+  font-size: 12px;
+}
+
+table {
+  font-family: "Verdana";
+  font-size: 12px;
+}
+table td {
+  border: 1px solid #C0C0C0;
+  padding: 3px;
+}
+
+input {
+  font-size: 12px;
+  margin: 4px;
+}
+
+.firstTable td{
+  border: none;
+  padding: 1px;
+}
+
+.submitSongs {
+  left: 53%;
+  position: relative;
+}
+
+#bestQuality {
+  left: 400px;
+  position: absolute;
+  top: 111px;
+}
+
+#warning {
+  left: 300px;
+  position: absolute;
+  top: 20px;
+}

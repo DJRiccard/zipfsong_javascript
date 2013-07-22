@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="se">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Zipf's song</title>
+    <link href="css/index.css" rel="stylesheet" />
+	<script src="js/jquery-1.8.2.min.js"></script>
+	
+    <script type="text/javascript">
+	  $(document).ready(function() {
+	    $('.submitSongs').click(function (){
+		  $('#warning').html("");
+		  var song = {};
+		  var qualitySort = [];
+		  var totPlayed = 0;
+		  var qualityOutput, songsOutput = "";
+		  var totSongs = $(".totSongs").attr("value");
+		  var selectSongs = $(".selectSongs").attr("value");
+
+		  if (eval(selectSongs) > eval(totSongs)) {
+		    $('#warning').html("You selected a higher selection that you have songs!\n It will be revised to the maximum songs.")
+			selectSongs = totSongs;
+			$(".selectSongs").attr("value", totSongs);
+		  }
+		  
+		  for (var i=1;i<=totSongs;i++) {
+		    song[i] = {
+			  played : Math.round((Math.random()*50)+1),
+			  name : "Track " + i,
+			  placeValue : 1/i ,
+			  quality : 0 
+			}
+			totPlayed += song[i].played;
+		  }	
+		  
+		  for (var i=1;i<=totSongs;i++) {
+		    song[i].quality = (song[i].played / (totPlayed * song[i].placeValue)).toFixed(5);
+		  }
+		  
+		  songsOutput = "<table><tr><td>Played</td><td>Name</td></tr>";
+   		  for (var i=1;i<=totSongs;i++) {
+		    songsOutput += "<tr><td>" + song[i].played + "</td><td>" + song[i].name + "</td></tr>";
+		  }
+		  songsOutput += "</table>";
+		  
+		  for (var key in song) {
+			song[key].key = key;
+			qualitySort.push(song[key]);
+		  }    
+		  qualitySort.sort(function(a,b) {
+			return(b.quality - a.quality);
+		  });
+
+		  qualityOutput = "<table><tr><td>Track with the highest value</td></tr>";
+
+		  for (var i=0;i<selectSongs;i++) {
+		    qualityOutput += "<tr><td>" + qualitySort[i].name + "</td></tr>";
+		  }
+
+		  qualityOutput += "</table>";
+		  	  
+		  $('#result').html(songsOutput);
+		  $('#bestQuality').html(qualityOutput);
+		});
+	  });
+    </script>
+  </head>
+  <body>
+    <div>
+	  <table class="firstTable">
+	    <tr><td>Songs:</td><td><input class="totSongs" type="text" name="totSongs"></td></tr>
+		<tr><td>Selected:</td><td><input class="selectSongs" type="text" name="selectSongs"></td></tr>
+		<tr><td></td><td><input class="submitSongs" type="submit" value="Submit"></td></tr>
+	  </table>
+	</div>
+	<div id="warning"></div>
+	<div id="result"></div>
+	<div id="bestQuality"></div>
+  </body>
+</html>
+
